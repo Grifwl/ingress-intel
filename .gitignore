@@ -1,0 +1,28 @@
+# Laravel
+laravel/
+!/laravel/.gitkeep
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Environment
+.env
+.env.backup
+.env.production
+
+# Docker volumes
+postgres_data/
+
+# Backups
+*.sql
+backup/
