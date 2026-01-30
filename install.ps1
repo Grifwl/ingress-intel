@@ -140,18 +140,19 @@ Copy-Item -Path "database\migrations\*" -Destination "laravel\database\migration
 
 # Copy models
 Write-Host "Copying models..." -ForegroundColor Cyan
-if (-not (Test-Path "laravel\app\Models")) {
-    New-Item -ItemType Directory -Path "laravel\app\Models" -Force | Out-Null
-}
-# Remove default User model if exists
-if (Test-Path "laravel\app\Models\User.php") {
-    Remove-Item "laravel\app\Models\User.php" -Force
-}
 Copy-Item -Path "app\Models\*" -Destination "laravel\app\Models\" -Force
+
+# Verify models were copied
+$modelCount = (Get-ChildItem "laravel\app\Models\*.php").Count
+Write-Host "  -> Copied $modelCount model files" -ForegroundColor Gray
 
 # Copy seeders
 Write-Host "Copying seeders..." -ForegroundColor Cyan
 Copy-Item -Path "database\seeders\*" -Destination "laravel\database\seeders\" -Force
+
+# Verify seeders were copied
+$seederCount = (Get-ChildItem "laravel\database\seeders\*.php").Count
+Write-Host "  -> Copied $seederCount seeder files" -ForegroundColor Gray
 
 # Copy Filament resources
 Write-Host "Copying Filament resources..." -ForegroundColor Cyan
