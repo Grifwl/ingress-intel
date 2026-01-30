@@ -129,6 +129,10 @@ if ($LASTEXITCODE -ne 0) {
     exit 1
 }
 
+# Install Filament Panel
+Write-Host "Installing Filament Panel..." -ForegroundColor Cyan
+docker-compose run --rm app php artisan filament:install --panels
+
 # Copy migrations
 Write-Host ""
 Write-Host "Step 8/10: Copying database migrations..." -ForegroundColor Cyan
@@ -138,6 +142,10 @@ Copy-Item -Path "database\migrations\*" -Destination "laravel\database\migration
 Write-Host "Copying models..." -ForegroundColor Cyan
 if (-not (Test-Path "laravel\app\Models")) {
     New-Item -ItemType Directory -Path "laravel\app\Models" -Force | Out-Null
+}
+# Remove default User model if exists
+if (Test-Path "laravel\app\Models\User.php") {
+    Remove-Item "laravel\app\Models\User.php" -Force
 }
 Copy-Item -Path "app\Models\*" -Destination "laravel\app\Models\" -Force
 

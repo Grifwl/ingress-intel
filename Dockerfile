@@ -15,6 +15,12 @@ RUN apk add --no-cache \
 # Instal·lar extensions de PHP
 RUN docker-php-ext-install pdo pdo_pgsql pgsql mbstring zip exif pcntl bcmath gd intl
 
+# Instal·lar Redis extension via PECL
+RUN apk add --no-cache $PHPIZE_DEPS \
+    && pecl install redis \
+    && docker-php-ext-enable redis \
+    && apk del $PHPIZE_DEPS
+
 # Instal·lar Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
